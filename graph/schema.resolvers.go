@@ -159,18 +159,20 @@ func (r *queryResolver) Questions(ctx context.Context, page *string, pageSize *s
 		return nil, fmt.Errorf("access denied")
 	}
 
-	//Retrieve information from db
-	dbQuestions, dbOptions := questions.GetAll(page, pageSize, &user.ID)
+	//Retrieve questions information from db
+	dbQuestions := questions.GetAll(page, pageSize, &user.ID)
 
-	//Creates questions list with options list inside
+	//Creates questions list
 	var resultQuestions []*model.Question
 	for _, question := range dbQuestions {
-		var resultOptions []*model.Option
 
+		//Retrieve options information from db
+		dbOptions := options.GetByQuestionId(question.ID)
+
+		//For a question, creates options list
+		var resultOptions []*model.Option
 		for _, option := range dbOptions {
-			if option.Question.ID == question.ID {
-				resultOptions = append(resultOptions, &model.Option{ID: option.ID, Body: strings.Replace(option.Body, "''", "'", -1), Correct: option.Correct})
-			}
+			resultOptions = append(resultOptions, &model.Option{ID: option.ID, Body: strings.Replace(option.Body, "''", "'", -1), Correct: option.Correct})
 		}
 		resultQuestions = append(resultQuestions, &model.Question{ID: question.ID, Body: strings.Replace(question.Body, "''", "'", -1), Options: resultOptions})
 	}

@@ -58,7 +58,7 @@ func (question Question) Delete() int64 {
 	return id
 }
 
-func GetAll(page *string, pageSize *string, userId *string) (map[string]Question, map[string]Option) {
+func GetAll(page *string, pageSize *string, userId *string) []Question {
 	var firstId int64
 	var paginationSize int64
 	var err error
@@ -84,7 +84,7 @@ func GetAll(page *string, pageSize *string, userId *string) (map[string]Question
 		firstId = pageN * paginationSize
 	}
 
-	stmt, err := sqlite.Db.Prepare("SELECT Q.id, Q.body, O.id, O.body, O.correct FROM questions Q INNER JOIN options O ON Q.id = O.question_id WHERE Q.user_id = ? ORDER BY Q.id ASC LIMIT ?,?")
+	stmt, err := sqlite.Db.Prepare("SELECT Q.id, Q.body FROM questions Q WHERE Q.user_id = ? ORDER BY Q.id ASC LIMIT ?,?")
 	if err != nil {
 		log.Fatal("Questions Preparation Err: ", err)
 	}
@@ -96,27 +96,22 @@ func GetAll(page *string, pageSize *string, userId *string) (map[string]Question
 	}
 	defer rows.Close()
 
-	questions := make(map[string]Question)
-	options := make(map[string]Option)
+	var questions []Question
 	for rows.Next() {
 		var question Question
-		var option Option
-
-		err := rows.Scan(&question.ID, &question.Body, &option.ID, &option.Body, &option.Correct)
+		err := rows.Scan(&question.ID, &question.Body)
 		if err != nil {
 			log.Fatal(err)
 		}
-		option.Question = &question
 
-		questions[question.ID] = question
-		options[option.ID] = option
+		questions = append(questions, question)
 	}
 
 	if err = rows.Err(); err != nil {
 		log.Fatal(err)
 	}
 
-	return questions, options
+	return questions
 }
 
 // GetQuestionById gets a question using a specific id
