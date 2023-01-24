@@ -51,6 +51,10 @@ JSON Header
   "Authorization": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFub3RoZXJ1c2VyIn0.FtTnj1HGMP1Tc6EntpUropaxBdMJKhwlQKSFKcMoD-c"
 }
 ```
+<sub>Note that the default page size is 10, and the default page is 0</sub>
+
+
+
 ### JSON Response
 ```json
 {
