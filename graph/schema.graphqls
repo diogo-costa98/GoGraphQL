@@ -1,0 +1,53 @@
+# GraphQL schema example
+#
+# https://gqlgen.com/getting-started/
+
+type Question {
+  id: ID!
+  body: String!
+  options:[Option!]!
+}
+
+input NewQuestion {
+  body: String!
+  options:[NewOption!]!
+}
+
+type Option {
+  id: ID!
+  body: String!
+  correct: Boolean!
+}
+
+input NewOption {
+  body: String!
+  correct: Boolean!
+}
+
+type User {
+  id: ID!
+  name: String!
+}
+
+input NewUser {
+  username: String!
+  password: String!
+}
+
+input Login {
+  username: String!
+  password: String!
+}
+
+type Query {
+  questions(page: ID, pageSize: String): [Question!]!
+}
+
+
+type Mutation {
+  createUser(input: NewUser!): String!
+  createQuestion(input: NewQuestion!): Question!
+  updateQuestion(id: ID!, input: NewQuestion!): Question!
+  deleteQuestion(id: ID!): Question!
+  login(input: Login!): String!
+}
