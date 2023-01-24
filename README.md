@@ -48,10 +48,10 @@ mutation {
 JSON Header
 ```json
 {
-  "Authorization": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFub3RoZXJ1c2VyIn0.FtTnj1HGMP1Tc6EntpUropaxBdMJKhwlQKSFKcMoD-c"
+  "Authorization": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImZpbmFsdXNlciJ9.zTvn_BH2Yi6aiB95YUJZ4jLUXFnmKI00C7rd9fFQ9lg"
 }
 ```
-<sub>Note that the default page size is 10, and the default page is 0</sub>
+<sub>*Note: the default page size is 10, and the default page is 0*</sub>
 
 
 
@@ -61,76 +61,169 @@ JSON Header
   "data": {
     "questions": [
       {
-        "id": "4",
-        "body": "How much is 2+1?",
+        "id": "8",
+        "body": "How much is 3+1?",
         "options": [
           {
-            "id": "10",
-            "body": "2+1=1",
+            "id": "23",
+            "body": "3+1=4",
+            "correct": true
+          },
+          {
+            "id": "24",
+            "body": "3+1=5",
+            "correct": false
+          }
+        ]
+      },
+      {
+        "id": "9",
+        "body": "How much is 3+2?",
+        "options": [
+          {
+            "id": "25",
+            "body": "3+2=3",
             "correct": false
           },
           {
-            "id": "11",
-            "body": "2+1=2",
+            "id": "26",
+            "body": "3+2=2",
             "correct": false
           },
           {
-            "id": "12",
-            "body": "2+1=3",
+            "id": "27",
+            "body": "3+2=5",
+            "correct": true
+          },
+          {
+            "id": "28",
+            "body": "3+2=4",
+            "correct": false
+          }
+        ]
+      },
+      {
+        "id": "10",
+        "body": "How much is 3+3?",
+        "options": [
+          {
+            "id": "29",
+            "body": "3+3=5",
+            "correct": false
+          },
+          {
+            "id": "30",
+            "body": "3+3=6",
             "correct": true
           }
         ]
       },
       {
-        "id": "5",
-        "body": "How much is 2+2?",
+        "id": "11",
+        "body": "How much is 3+4?",
         "options": [
           {
-            "id": "14",
-            "body": "2+2=2",
+            "id": "31",
+            "body": "3+4=5",
             "correct": false
           },
           {
-            "id": "15",
-            "body": "2+2=3",
+            "id": "32",
+            "body": "3+4=6",
             "correct": false
           },
           {
-            "id": "13",
-            "body": "2+2=1",
-            "correct": false
-          },
-          {
-            "id": "16",
-            "body": "2+2=4",
+            "id": "33",
+            "body": "3+4=7",
             "correct": true
           }
         ]
       },
       {
-        "id": "6",
-        "body": "How much is 2+3?",
+        "id": "12",
+        "body": "How much is 3+5?",
         "options": [
           {
-            "id": "17",
-            "body": "2+3=4",
+            "id": "34",
+            "body": "3+5=8",
+            "correct": true
+          },
+          {
+            "id": "35",
+            "body": "3+5=9",
+            "correct": false
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+## Get Questions (with pagination)
+
+```graphql
+#Questions Query
+{
+  questions(page:"1",pageSize:"2"){
+    id
+    body
+    options {
+      id
+      body
+      correct
+    }
+  }
+}
+```
+JSON Header
+```json
+{
+  "Authorization": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImZpbmFsdXNlciJ9.zTvn_BH2Yi6aiB95YUJZ4jLUXFnmKI00C7rd9fFQ9lg"
+}
+```
+
+
+
+### JSON Response
+```json
+{
+  "data": {
+    "questions": [
+      {
+        "id": "10",
+        "body": "How much is 3+3?",
+        "options": [
+          {
+            "id": "29",
+            "body": "3+3=5",
             "correct": false
           },
           {
-            "id": "18",
-            "body": "2+3=5",
+            "id": "30",
+            "body": "3+3=6",
             "correct": true
           }
         ]
       },
       {
-        "id": "7",
-        "body": "How much is 2+4?",
+        "id": "11",
+        "body": "How much is 3+4?",
         "options": [
           {
-            "id": "19",
-            "body": "2+4=4",
+            "id": "31",
+            "body": "3+4=5",
             "correct": false
+          },
+          {
+            "id": "32",
+            "body": "3+4=6",
+            "correct": false
+          },
+          {
+            "id": "33",
+            "body": "3+4=7",
+            "correct": true
           }
         ]
       }
