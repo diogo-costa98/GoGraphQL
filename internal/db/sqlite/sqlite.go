@@ -4,7 +4,7 @@ import (
 	"database/sql"
 	"log"
 
-	_ "github.com/mattn/go-sqlite3"
+	_ "github.com/lib/pq"
 )
 
 // Db is our database struct used for interacting with the database
@@ -13,8 +13,8 @@ var Db *sql.DB
 // New makes a new database using the connection string and
 // returns it, otherwise returns the error
 func InitDB(dbPath string) {
-
-	db, err := sql.Open("sqlite3", dbPath)
+	// open database
+	db, err := sql.Open("postgres", dbPath)
 	if err != nil {
 		log.Panic(err)
 	}

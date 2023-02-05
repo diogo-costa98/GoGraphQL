@@ -84,7 +84,7 @@ func GetAll(page *string, pageSize *string, userId *string) []Question {
 		firstId = pageN * paginationSize
 	}
 
-	stmt, err := sqlite.Db.Prepare("SELECT Q.id, Q.body FROM questions Q WHERE Q.user_id = ? ORDER BY Q.id ASC LIMIT ?,?")
+	stmt, err := sqlite.Db.Prepare("SELECT Q.id, Q.body FROM questions Q WHERE Q.user_id = $1 ORDER BY Q.id ASC LIMIT $2,$3")
 	if err != nil {
 		log.Fatal("Questions Preparation Err: ", err)
 	}
@@ -116,7 +116,7 @@ func GetAll(page *string, pageSize *string, userId *string) []Question {
 
 // GetQuestionById gets a question using a specific id
 func GetQuestionById(questionId string) (Question, []Option) {
-	statement, err := sqlite.Db.Prepare("SELECT Q.id, Q.body, Q.user_id, O.id, O.body, O.correct FROM questions Q INNER JOIN options O ON Q.id = O.question_id AND Q.id = ? ORDER BY O.id")
+	statement, err := sqlite.Db.Prepare("SELECT Q.id, Q.body, Q.user_id, O.id, O.body, O.correct FROM questions Q INNER JOIN options O ON Q.id = O.question_id AND Q.id = $1 ORDER BY O.id")
 	if err != nil {
 		log.Fatal("GetQuestionById Prepare Err: ", err)
 	}

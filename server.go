@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -13,9 +14,18 @@ import (
 	"github.com/go-chi/chi"
 )
 
-const defaultPort = "3000"
+const (
+	host        = "localhost"
+	port        = 5432
+	user        = "postgres"
+	password    = "DiAnMaEd22"
+	dbname      = "TogglHire-BackendHomework"
+	defaultPort = "3000"
+)
 
 func main() {
+	psqlconn := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", host, port, user, password, dbname)
+
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = defaultPort
@@ -25,7 +35,7 @@ func main() {
 
 	router.Use(auth.Middleware())
 
-	sqlite.InitDB("./internal/db/sqlite/homework.db")
+	sqlite.InitDB(psqlconn)
 	defer sqlite.CloseDB()
 
 	srv := handler.NewDefaultServer(graph.NewExecutableSchema(graph.Config{Resolvers: &graph.Resolver{}}))

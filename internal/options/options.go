@@ -31,7 +31,7 @@ func (option Option) Save() int64 {
 }
 
 func GetByQuestionId(questionID string) []Option {
-	stmt, err := sqlite.Db.Prepare("SELECT O.id, O.body, O.correct FROM options O WHERE O.question_id = ?")
+	stmt, err := sqlite.Db.Prepare("SELECT O.id, O.body, O.correct FROM options O WHERE O.question_id = $1")
 	if err != nil {
 		log.Fatal("OptionsGetByQuestionId Preparation Err: ", err)
 	}
