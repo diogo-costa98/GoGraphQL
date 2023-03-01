@@ -1,305 +1,93 @@
-# GoGraphQL
+# PriceBasket Application
+The PriceBasket application is a command-line application that calculates the total price of a basket of items, including any discounts that apply. The application takes a list of item names as input and outputs the subtotal, discounts, and total price.
 
-## SQL File 
-The sql file included creates 3 tables: users, questions and options.
+## Directory Organization
+The PriceBasket solution is organized into two projects:
+* **PriceBasket**: This project contains the application logic.
+* **PriceBasket.Tests**: This project contains the unit tests for the application.
 
-It populates these tables as:
-- Users: creates 3 users (these have usernames: user, anotheruser and finaluser, and encrypted passwords)
-- Questions: creates 7 questions (3 for one user, 4 for another and 5 for the final)
-- Options: creates between 2 and 4 options for each of the 7 questions
+## Application Design
+The PriceBasket application is structured in a way that follows the Model-View-Controller (MVC) pattern to guarrantee separation of concerns.
 
-## User Credentials
-1.  Username: user        | Password: password
-2.  Username: anotheruser | Password: anotherpassword
-3.  Username: finaluser   | Password: finalpassword
+* **Models** - this folder contains the data models for the application, including the Product and Discount classes. 
+* **Services** - this folder contains the classes responsible for data access, including ProductService and DiscountService.
+* **Utils** - this folder contains utility classes for formatting, outputting data and handling business logic. 
+* **Program.cs** - this file in the root directory contains the main entry point for the application and handles user input and output.
 
-## Login
-```graphql
-#Login Mutation
-mutation {
-  login(input: {username: "anotheruser", password: "anotherpassword"})
-}
-```
-### JSON Response
-```json
-{
-  "data": {
-    "login": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFub3RoZXJ1c2VyIn0.FtTnj1HGMP1Tc6EntpUropaxBdMJKhwlQKSFKcMoD-c"
-  }
-}
+## Installation
+To install the PriceBasket application, you need to have the .NET Core runtime installed on your system. You can download it from the official [.NET website](https://dotnet.microsoft.com/download).
+
+Once you have .NET Core installed, you can then navigate to the `PriceBasket` directory and build the application using the following command:
+
+```sh
+dotnet build
 ```
 
-## Get Questions
+This will build the application and create an executable file in the `bin/Debug/net6.0` directory.
 
-```graphql
-#Questions Query
-{
-  questions{
-    id
-    body
-    options {
-      id
-      body
-      correct
-    }
-  }
-}
-```
-JSON Header
-```json
-{
-  "Authorization": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImZpbmFsdXNlciJ9.zTvn_BH2Yi6aiB95YUJZ4jLUXFnmKI00C7rd9fFQ9lg"
-}
-```
-<sub>*Note: the default page size is 10, and the default page is 0*</sub>
+## Usage
+To use the PriceBasket application, run the following command:
 
-
-
-### JSON Response
-```json
-{
-  "data": {
-    "questions": [
-      {
-        "id": "8",
-        "body": "How much is 3+1?",
-        "options": [
-          {
-            "id": "23",
-            "body": "3+1=4",
-            "correct": true
-          },
-          {
-            "id": "24",
-            "body": "3+1=5",
-            "correct": false
-          }
-        ]
-      },
-      {
-        "id": "9",
-        "body": "How much is 3+2?",
-        "options": [
-          {
-            "id": "25",
-            "body": "3+2=3",
-            "correct": false
-          },
-          {
-            "id": "26",
-            "body": "3+2=2",
-            "correct": false
-          },
-          {
-            "id": "27",
-            "body": "3+2=5",
-            "correct": true
-          },
-          {
-            "id": "28",
-            "body": "3+2=4",
-            "correct": false
-          }
-        ]
-      },
-      {
-        "id": "10",
-        "body": "How much is 3+3?",
-        "options": [
-          {
-            "id": "29",
-            "body": "3+3=5",
-            "correct": false
-          },
-          {
-            "id": "30",
-            "body": "3+3=6",
-            "correct": true
-          }
-        ]
-      },
-      {
-        "id": "11",
-        "body": "How much is 3+4?",
-        "options": [
-          {
-            "id": "31",
-            "body": "3+4=5",
-            "correct": false
-          },
-          {
-            "id": "32",
-            "body": "3+4=6",
-            "correct": false
-          },
-          {
-            "id": "33",
-            "body": "3+4=7",
-            "correct": true
-          }
-        ]
-      },
-      {
-        "id": "12",
-        "body": "How much is 3+5?",
-        "options": [
-          {
-            "id": "34",
-            "body": "3+5=8",
-            "correct": true
-          },
-          {
-            "id": "35",
-            "body": "3+5=9",
-            "correct": false
-          }
-        ]
-      }
-    ]
-  }
-}
+```sh
+dotnet run [item 1] [item 2] [item 3] ...
 ```
 
-## Get Questions (with pagination)
+Replace `[item 1], [item 2], [item 3], ...` with the names of the items you want to include in the basket.
 
-```graphql
-#Questions Query
-{
-  questions(page:"1",pageSize:"2"){
-    id
-    body
-    options {
-      id
-      body
-      correct
-    }
-  }
-}
-```
-JSON Header
-```json
-{
-  "Authorization": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImZpbmFsdXNlciJ9.zTvn_BH2Yi6aiB95YUJZ4jLUXFnmKI00C7rd9fFQ9lg"
-}
+## Examples
+Here are some example commands and their expected output:
+
+#### Basket containing apples, milk, and bread
+```sh
+dotnet run Apples Milk Bread
 ```
 
-
-
-### JSON Response
-```json
-{
-  "data": {
-    "questions": [
-      {
-        "id": "10",
-        "body": "How much is 3+3?",
-        "options": [
-          {
-            "id": "29",
-            "body": "3+3=5",
-            "correct": false
-          },
-          {
-            "id": "30",
-            "body": "3+3=6",
-            "correct": true
-          }
-        ]
-      },
-      {
-        "id": "11",
-        "body": "How much is 3+4?",
-        "options": [
-          {
-            "id": "31",
-            "body": "3+4=5",
-            "correct": false
-          },
-          {
-            "id": "32",
-            "body": "3+4=6",
-            "correct": false
-          },
-          {
-            "id": "33",
-            "body": "3+4=7",
-            "correct": true
-          }
-        ]
-      }
-    ]
-  }
-}
+Expected output:
+```sh
+Subtotal: £3.10
+Apples 10% off: -10p
+Total: £3.00
 ```
 
-## Delete Question
-
-```graphql
-#Delete Question Mutation
-mutation { 
-	deleteQuestion(id: 7){
-    id
-    body
-  }
-}
-```
-### JSON Response
-```json
-{
-  "data": {
-    "deleteQuestion": {
-      "id": "7",
-      "body": "How much is 2+4?",
-      "options": []
-    }
-  }
-}
+#### Basket containing only milk
+```sh
+dotnet run Milk
 ```
 
-## Update Question
+Expected output:
+```sh
+Subtotal: £1.30
+(no offers available)
+Total: £1.30
+```
 
-```graphql
-#Update Question Mutation
-mutation {
-  updateQuestion(
-    id: 5
-    input: {body: "How much is 20+3?", options: [{body: "20+3=4", correct: false}, {body: "20+3=5", correct: false}, {body: "20+3=23", correct: true}]}
-  ) {
-    id
-    body
-    options {
-      id
-      body
-      correct
-    }
-  }
-}
+### Testing
+#### Unit Tests
+To run the unit tests for the PriceBasket application, navigate to the `PriceBasket.Tests` directory and run the following command:
+
+```sh
+dotnet test
 ```
-### JSON Response
-```json
-{
-  "data": {
-    "updateQuestion": {
-      "id": "5",
-      "body": "How much is 20+3?",
-      "options": [
-        {
-          "id": "36",
-          "body": "20+3=4",
-          "correct": false
-        },
-        {
-          "id": "37",
-          "body": "20+3=5",
-          "correct": false
-        },
-        {
-          "id": "38",
-          "body": "20+3=23",
-          "correct": true
-        }
-      ]
-    }
-  }
-}
+
+This will execute all of the unit tests in the project and display the results in the console.
+
+#### End-To-End Tests
+The PriceBasket application comes with a suite of automated end-to-end tests that can be run using the following command:
+
+```sh
+.\end-to-end-test-1.bat
 ```
+or
+```sh
+.\end-to-end-test-2.bat
+```
+
+This will run a series of tests to ensure that the application is functioning correctly. If all tests pass, the output should look like this:
+
+```sh
+SUBTOTAL TEST:      Passed
+DISCOUNT TEST:      Passed
+TOTAL TEST:         Passed
+```
+
+If any tests fail, the output will indicate which tests failed and why.
